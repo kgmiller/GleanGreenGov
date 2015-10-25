@@ -1,7 +1,11 @@
 section style="margin-top: 20px;"
-	h2 style="margin-left: 20px;"
+	h2 style="margin-left: 20px; display: inline;"
 		=params[:department_name]
-
+	select id="property_type" style="float: right;" onchange="window.location = '/home/building?department_name=#{params[:department_name]}&property_type=' + $('#property_type').val();"
+		- @property_types.each do |v, k|
+			option value='#{k}' selected=("selected" if v==params[:property_type])
+				=v
+	
 	div class="chart"
 		div id="chart"
 
@@ -22,7 +26,7 @@ javascript:
   			}
 			},	 		
 	 		size: {
-  			height: 700
+  			height: 650
   			},
 			zoom: {
  		 		enabled: false,

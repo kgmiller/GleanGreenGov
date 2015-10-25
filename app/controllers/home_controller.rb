@@ -104,22 +104,31 @@ class HomeController < ApplicationController
 		@department_buildings_2013 = Hash.new
 		@merged_data = Hash.new
 		@columns = Array.new
-
-		puts params[:department_name]
+    @property_types = Hash.new
+    @property_types['All Property Types'] = ''
 
 		@data2013.each do |building|
 
-			if building[:department_name] == params[:department_name]
+			if (building[:department_name] == params[:department_name]) && (params[:property_type] == nil || params[:property_type] == '' || building[:"primary_property_type___self_selected"] == params[:property_type])
 				if building[:property_id] != nil && building[:"site_energy_use_(kbtu)"] != nil
 					@department_buildings_2013[building[:property_id]] = {:usage => building[:"site_energy_use_(kbtu)"]}
 				end
-			end
+      end
+
+      if building[:department_name] == params[:department_name]
+        unless @property_types.include?(building[:"primary_property_type___self_selected"])
+          puts building[:"primary_property_type___self_selected"]
+          @property_types[building[:"primary_property_type___self_selected"]] = building[:"primary_property_type___self_selected"]
+
+        end
+      end
+
 		
 		end
 
 		@data2014.each do |building|
 
-			if building[:department_name] == params[:department_name]
+      if (building[:department_name] == params[:department_name]) && (params[:property_type] == nil || params[:property_type] == '' || building[:"primary_property_type___self_selected"] == params[:property_type])
 				if building[:property_id] != nil && building[:"site_energy_use_(kbtu)"] != nil && @department_buildings_2013[building[:property_id]] != nil
 
 					@merged_data[building[:property_id]]= {:usage_2014 => building[:"site_energy_use_(kbtu)"].to_d,
