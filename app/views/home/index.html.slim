@@ -1,0 +1,75 @@
+section style="margin-top: 20px;"
+	h2 style="margin-left: 20px;"
+		| All State Departments
+
+	div class="chart"
+		div id="chart"
+
+javascript:
+	
+
+	var chart = c3.generate({
+	    data: { columns: #{raw @columns.to_json},
+
+	    selection: {
+            enabled: false
+        },
+			x: 'x',
+			type: 'spline'
+	    },
+			axis: {
+			  y: {
+			  max: 300000
+  			}
+			},	 		
+	 		size: {
+  			height: 650
+  			},
+			zoom: {
+ 		 		enabled: true,
+ 		 		rescale: true
+			},
+			legend: {
+				show: true,
+				position: 'right',
+				item: {
+					onclick: function (id) {
+						window.location = "/home/building?department_name=" + id;
+					}				
+				}
+
+			},
+			tooltip: {
+			grouped: false
+			}
+	});
+
+/ table
+	th
+		tr
+			td Agency
+			td Properties
+			td Total SQFT
+			td 2010 kBTU
+			td 2011 kBTU
+			td 2012 kBTU
+			td 2013 kBTU
+			td 2014 kBTU
+			td Water Use 2014 per SQFT
+
+	- @data.each do |row|
+		tr
+			td =row[:department_name]
+			td =row[:property_count]
+			td =row[:thousand_square_feet]
+			td =row[:total_2010_kbtu]
+			td =row[:total_2011_kbtu]
+			td =row[:total_2012_kbtu]
+			td =row[:total_2013_kbtu]
+			td =row[:total_2014_kbtu]
+			td =((row[:water_use_millions_of_gallons_2014].to_d * 1000) / row[:thousand_square_feet].to_d )
+
+/ p
+	=@columns.count
+/ p
+	=@data

@@ -1,0 +1,41 @@
+section style="margin-top: 20px;"
+	h2 style="margin-left: 20px;"
+		=params[:department_name]
+
+	div class="chart"
+		div id="chart"
+
+javascript:
+	
+
+	var chart = c3.generate({
+	    data: { columns: #{raw @columns.to_json},
+
+	    selection: {
+            enabled: false
+        },
+			x: 'x',
+			type: 'spline'
+	    },
+			axis: {
+			  y: {
+  			}
+			},	 		
+	 		size: {
+  			height: 700
+  			},
+			zoom: {
+ 		 		enabled: false,
+ 		 		rescale: false
+			},
+			legend: {
+				show: true,
+				position: 'right',
+			},
+			tooltip: {
+			grouped: false
+			}
+	});
+
+
+

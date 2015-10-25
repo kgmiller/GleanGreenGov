@@ -1,0 +1,45 @@
+section style="margin-top: 20px;"
+	h2 style="margin-left: 20px; display: inline;"
+		| State Buildings
+	select id="property_type" style="float: right;" onchange="window.location = '/home/buildings?property_type=' + $('#property_type').val();"
+		- @property_types.each do |v, k|
+			option value='#{k}' selected=("selected" if v==params[:property_type])
+				=v
+
+	div class="chart"
+		div id="chart"
+
+javascript:
+	
+
+	var chart = c3.generate({
+	    data: { columns: #{raw @columns.to_json},
+
+	    selection: {
+            enabled: false
+        },
+			x: 'x',
+			type: 'spline'
+	    },
+			axis: {
+			  y: {
+  			}
+			},	 		
+	 		size: {
+  			height: 650
+  			},
+			zoom: {
+ 		 		enabled: false,
+ 		 		rescale: false
+			},
+			legend: {
+				show: false
+			},
+			tooltip: {
+			grouped: false
+			}
+	});
+
+
+
+
